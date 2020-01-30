@@ -2,9 +2,9 @@ library(shiny)
 library(shinydashboard)
 library(clipr)
 
-assessr <- function() {
+assessr <- function(abstract_filename = "erum2020_sessions_for_reviewers.xlsx") {
   
-  abstract_table <- readxl::read_excel("/Users/fede/Downloads/erum2020 sessions - exported 2020-01-28.xlsx")
+  abstract_table <- readxl::read_excel(abstract_filename)
   
   preselected_cols <- c("Id",
                         "Title",
@@ -17,7 +17,6 @@ assessr <- function() {
   
   abstract_table_compact <- 
     abstract_table[, preselected_cols]
-  
   
   # UI definition -----------------------------------------------------------
   assessr_ui <- shinydashboard::dashboardPage(
@@ -70,6 +69,11 @@ assessr <- function() {
   # Server definition -------------------------------------------------------
   assessr_server <- function(input, output, session) {
     
+    current_dt <- reactive({
+      mydt <- abstract_table[, input$cols_abstract]
+      return(mydt)
+    })
+    
     output$session_abstract <- renderUI({
       s <- input$DT_abstracts_rows_selected
       if(length(s) == 0)
@@ -116,7 +120,7 @@ assessr <- function() {
     
     output$DT_abstracts <- DT::renderDataTable({
       DT::datatable(
-        abstract_table_compact,
+        current_dt(),
         style = "bootstrap", 
         rownames = FALSE, 
         filter = "top",
@@ -124,7 +128,7 @@ assessr <- function() {
         options = list(
           scrollX = TRUE,
           pageLength = 10,
-          lengthMenu = c(5, 10, 25, 50, 100, nrow(abstract_table_compact))
+          lengthMenu = c(5, 10, 25, 50, 100, nrow(current_dt()))
         )
       )
     })
