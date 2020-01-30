@@ -1,5 +1,6 @@
 library(shiny)
 library(shinydashboard)
+library(clipr)
 
 assessr <- function() {
   
@@ -24,7 +25,7 @@ assessr <- function() {
     
     # header definition -------------------------------------------------------
     header = shinydashboard::dashboardHeader(
-      title = "assessR - eRum2020",
+      title = "assessr - eRum2020",
       titleWidth = 350
     ),
     
@@ -113,8 +114,6 @@ assessr <- function() {
       
     })
     
-          
-      
     output$DT_abstracts <- DT::renderDataTable({
       DT::datatable(
         abstract_table_compact,
@@ -128,6 +127,19 @@ assessr <- function() {
           lengthMenu = c(5, 10, 25, 50, 100, nrow(abstract_table_compact))
         )
       )
+    })
+    
+    observeEvent(input$launch_gform, {
+      s <- input$DT_abstracts_rows_selected
+      if(length(s) == 0)
+        return(NULL)
+      
+      this_submission <- abstract_table[s, ]
+      this_id <- this_submission$Id
+      clipr::write_clip(this_id)
+      showNotification(
+        "Copying the id of the abstract to the clipboard... just paste it in the Google Form!",
+        duration = 10, type = "message")
     })
     
   }  
