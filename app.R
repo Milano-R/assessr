@@ -144,11 +144,18 @@ assessr <- function(abstract_filename = "erum2020_sessions_for_reviewers.xlsx") 
       if(length(s) == 0)
         return(NULL)
       
+      # TODO: return id|title, to be copied in one go
       this_submission <- abstract_table[s, ]
       this_id <- this_submission$Id
-      clipr::write_clip(this_id)
+      this_title <- this_submission$Title
+      
+      this_toclipboard <- paste(this_id, this_title, sep = "|")
+      clipr::write_clip(this_toclipboard)
       showNotification(
-        "Copying the id of the abstract to the clipboard... just paste it in the Google Form!",
+        paste0(
+          "Copying the id of the abstract to the clipboard... just paste it in the Google Form!",
+          this_toclipboard
+        ),
         duration = 10, type = "message")
     })
     
