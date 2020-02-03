@@ -1,0 +1,11 @@
+element;intro
+#Welcome;Welcome to the interactive tour for <code>assessr</code>!
+#DT_abstracts;The main part is occupied here by the main DataTable, where all abstracts are displayed.
+#cols_abstract + .selectize-control;Clicking on the elements in this selectize widget, you can edit its looks, by adding/removing/sorting the columns you display - you might want to use a minimal configuration, for example.
+#DT_abstracts;If you changed something in the previous widget, see how the aspect of the DT changes.
+#DT_abstracts;You can drill down the content of each abstract by clicking on any row of the DT table. Please do so before proceeding.
+#session_abstract;See how the content of each contribution are beautified and displayed in the right column of the app
+#launch_gform;Importantly: once you are ready to evaluate the contributed session, here's a comfy link for you to evaluate it in the Google Form for this. 
+#launch_gform;If you click on this, this has a nice side effect: the Id of the contributed session is copied directly to the clipboard, so you can paste it in the Form
+#session_abstract;That's pretty much it. Please remember to evaluate all the contributed sessions you are assigned to, and of course to fill in the complete set of info in the evaluation form.
+#Thanks;Thank you for taking the tour of <code>assessr</code>!
