@@ -1,6 +1,7 @@
 library(shiny)
 library(shinydashboard)
 library(clipr)
+library(rintrojs)
 
 assessr <- function(abstract_filename = "erum2020_sessions_for_reviewers.xlsx") {
   
@@ -21,7 +22,7 @@ assessr <- function(abstract_filename = "erum2020_sessions_for_reviewers.xlsx") 
   # UI definition -----------------------------------------------------------
   assessr_ui <- shinydashboard::dashboardPage(
     skin = "black",
-    
+    rintrojs::introjsUI(),
     # header definition -------------------------------------------------------
     header = shinydashboard::dashboardHeader(
       title = "assessr - eRum2020",
@@ -40,6 +41,13 @@ assessr <- function(abstract_filename = "erum2020_sessions_for_reviewers.xlsx") 
           choices = colnames(abstract_table),
           selected =  preselected_cols, 
           multiple = TRUE
+        ),
+        
+        actionButton(
+          inputId = "tour_assessr",
+          icon = icon("question-circle"),
+          label = "How does assessr work?",
+          class = "btn-info"
         )
       )
     ),
@@ -55,11 +63,8 @@ assessr <- function(abstract_filename = "erum2020_sessions_for_reviewers.xlsx") 
         ),
         column(
           width = 6,
-          uiOutput("session_title"),
           hr(),
           uiOutput("session_abstract"),
-          hr(),
-          uiOutput("session_track_keywords")
         )
       )
     )
@@ -111,7 +116,8 @@ assessr <- function(abstract_filename = "erum2020_sessions_for_reviewers.xlsx") 
           shiny::actionButton(
             inputId = "launch_gform", label = "Open the Google Form to insert your evaluation", 
             icon = icon("database"), 
-            onclick ="window.open('TODOTODO_LINK', '_blank')"
+            onclick ="window.open('TODOTODO_LINK', '_blank')",
+            class = "btn-success"
           )
         )
       )
@@ -144,6 +150,13 @@ assessr <- function(abstract_filename = "erum2020_sessions_for_reviewers.xlsx") 
       showNotification(
         "Copying the id of the abstract to the clipboard... just paste it in the Google Form!",
         duration = 10, type = "message")
+    })
+    
+    observeEvent(input$tour_assessr, {
+      tour <- read.delim("tour_info.txt",
+                         sep = ";", stringsAsFactors = FALSE,
+                         row.names = NULL, quote = "")
+      rintrojs::introjs(session, options = list(steps = tour))
     })
     
   }  
