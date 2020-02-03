@@ -144,7 +144,6 @@ assessr <- function(abstract_filename = "erum2020_sessions_for_reviewers.xlsx") 
       if(length(s) == 0)
         return(NULL)
       
-      # TODO: return id|title, to be copied in one go
       this_submission <- abstract_table[s, ]
       this_id <- this_submission$Id
       this_title <- this_submission$Title
