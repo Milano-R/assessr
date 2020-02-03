@@ -86,6 +86,7 @@ assessr <- function(abstract_filename = "erum2020_sessions_for_reviewers.xlsx") 
       
       this_submission <- abstract_table[s, ]
       this_title <- this_submission$Title
+      this_id <- this_submission$Id
       this_abstract <- this_submission$Description
       this_track <- this_submission$Track
       this_format <- this_submission$`Session format`
@@ -96,11 +97,13 @@ assessr <- function(abstract_filename = "erum2020_sessions_for_reviewers.xlsx") 
 
       return(
         tagList(
-          h3("Title: "),
-          tags$b(this_title),
+          h4("Title: "),
+          tags$b(h3(this_title)),
+          h4("Contribution identifier: "),
+          tags$p(paste(this_id, this_title, sep = "|")),
           h3("Abstract: "),
           tags$p(this_abstract),
-          h3("Track:"),
+          h4("Track:"),
           p(this_track),
           h4("Format:"),
           p(this_format),
