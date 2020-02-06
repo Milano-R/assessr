@@ -1,7 +1,9 @@
 element;intro
 #Welcome;Welcome to the interactive tour for <code>assessr</code>!
 #DT_abstracts;The main part is occupied here by the main DataTable, where all abstracts are displayed.
-#cols_abstract + .selectize-control;Clicking on the elements in this selectize widget, you can edit its looks, by adding/removing/sorting the columns you display - you might want to use a minimal configuration, for example.
+#submissionType + .selectize-control; Selecting the type of submission, you can choose if you are going to review Workshops or Talks and other contributions type (posters, shiny demos)
+#reviewer + .selectize-control; Use this selector to filter only the abstract which are assigned  to you. Remember that you must review all the submissions assigned to you, but if you want, you can review also other submissions  
+#cols_abstract + .selectize-control; Clicking on the elements in this selectize widget, you can edit its looks, by adding/removing/sorting the columns you display - you might want to use a minimal configuration, for example.
 #DT_abstracts;If you changed something in the previous widget, see how the aspect of the DT changes.
 #DT_abstracts;You can drill down the content of each abstract by clicking on any row of the DT table. Please do so before proceeding.
 #session_abstract;See how the content of each contribution are beautified and displayed in the right column of the app
