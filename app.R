@@ -40,12 +40,6 @@ window_open_erum <- function(id, type) {
   reviewers_names <- unique(c(workshop_table$Reviewer1, workshop_table$Reviewer2,
                               workshop_table$Reviewer3))
   
-  
-  abstract_table_compact <- 
-    workshop_table[, preselected_cols]
-  
-
-  
   preselected_cols <- c("Id",
                         "Title",
                         "Description",
@@ -56,6 +50,8 @@ window_open_erum <- function(id, type) {
                         "First time presenting this?",
                         "Speaker Notes")
   
+  abstract_table_compact <- 
+    workshop_table[, preselected_cols]
   
   # UI definition -----------------------------------------------------------
   assessr_ui <- shinydashboard::dashboardPage(
