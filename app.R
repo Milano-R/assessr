@@ -48,6 +48,7 @@ window_open_erum <- function(id, type) {
   
   preselected_cols <- c("Id",
                         "Title",
+                        "Description",
                         "Session format",
                         "Track",
                         "Keywords (1-3)",
@@ -153,7 +154,7 @@ window_open_erum <- function(id, type) {
       if(length(s) == 0)
         return(h3("Select an abstract from the table to display the full info"))
       
-      this_submission <- abstract_table()[s, ]
+      this_submission <- current_dt()[s, ]
       this_title <- this_submission$Title
       this_id <- this_submission$Id
       this_abstract <- this_submission$Description
@@ -170,7 +171,7 @@ window_open_erum <- function(id, type) {
       if(length(s) == 0)
         return(NULL)
       
-      this_submission <- abstract_table()[s, ]
+      this_submission <-  current_dt()[s, ]
       this_id <- this_submission$Id
       this_title <- this_submission$Title
       
