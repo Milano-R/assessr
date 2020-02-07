@@ -37,7 +37,8 @@ window_open_erum <- function(id, type) {
   contribution_table <- readxl::read_excel(contribution_path)
   
   
-  reviewers_names <- unique(c(workshop_table$Reviewer1, workshop_table$Reviewer2))
+  reviewers_names <- unique(c(workshop_table$Reviewer1, workshop_table$Reviewer2,
+                              workshop_table$Reviewer3))
   
   
   abstract_table_compact <- 
@@ -141,6 +142,7 @@ window_open_erum <- function(id, type) {
       
       mydt <- abstract_table()[abstract_table()$Reviewer1 %in% input$reviewer |
                                  abstract_table()$Reviewer2 %in% input$reviewer |
+                                 abstract_table()$Reviewer3 %in% input$reviewer |
                                  "All" %in% input$reviewer,
                                input$cols_abstract]
       return(mydt)
@@ -172,7 +174,7 @@ window_open_erum <- function(id, type) {
       this_id <- this_submission$Id
       this_title <- this_submission$Title
       
-      form_id <- paste(this_id, this_title, sep = "|")
+      form_id <- gsub( "'", "", paste(this_id, this_title, sep = "|"))
       
       message("type: ", input$submissionType)
       message("form_id(): ", form_id)
