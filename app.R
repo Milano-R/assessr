@@ -142,8 +142,7 @@ window_open_erum <- function(id, type) {
       mydt <- abstract_table()[abstract_table()$Reviewer1 %in% input$reviewer |
                                  abstract_table()$Reviewer2 %in% input$reviewer |
                                  abstract_table()$Reviewer3 %in% input$reviewer |
-                                 "All" %in% input$reviewer |
-                                 !is.na(abstract_table()$Id),
+                                 "All" %in% input$reviewer,
                                input$cols_abstract]
       return(mydt)
     })
