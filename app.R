@@ -37,16 +37,12 @@ window_open_erum <- function(id, type) {
   contribution_table <- readxl::read_excel(contribution_path)
   
   
-  reviewers_names <- unique(c(workshop_table$Reviewer1, workshop_table$Reviewer2))
-  
-  
-  abstract_table_compact <- 
-    workshop_table[, preselected_cols]
-  
-
+  reviewers_names <- unique(c(workshop_table$Reviewer1, workshop_table$Reviewer2,
+                              workshop_table$Reviewer3))
   
   preselected_cols <- c("Id",
                         "Title",
+                        "Description",
                         "Session format",
                         "Track",
                         "Keywords (1-3)",
@@ -54,6 +50,8 @@ window_open_erum <- function(id, type) {
                         "First time presenting this?",
                         "Speaker Notes")
   
+  abstract_table_compact <- 
+    workshop_table[, preselected_cols]
   
   # UI definition -----------------------------------------------------------
   assessr_ui <- shinydashboard::dashboardPage(
@@ -141,6 +139,7 @@ window_open_erum <- function(id, type) {
       
       mydt <- abstract_table()[abstract_table()$Reviewer1 %in% input$reviewer |
                                  abstract_table()$Reviewer2 %in% input$reviewer |
+                                 abstract_table()$Reviewer3 %in% input$reviewer |
                                  "All" %in% input$reviewer,
                                input$cols_abstract]
       return(mydt)
@@ -151,7 +150,7 @@ window_open_erum <- function(id, type) {
       if(length(s) == 0)
         return(h3("Select an abstract from the table to display the full info"))
       
-      this_submission <- abstract_table()[s, ]
+      this_submission <- current_dt()[s, ]
       this_title <- this_submission$Title
       this_id <- this_submission$Id
       this_abstract <- this_submission$Description
@@ -168,11 +167,11 @@ window_open_erum <- function(id, type) {
       if(length(s) == 0)
         return(NULL)
       
-      this_submission <- abstract_table()[s, ]
+      this_submission <-  current_dt()[s, ]
       this_id <- this_submission$Id
       this_title <- this_submission$Title
       
-      form_id <- paste(this_id, this_title, sep = "|")
+      form_id <- gsub( "'", "", paste(this_id, this_title, sep = "|"))
       
       message("type: ", input$submissionType)
       message("form_id(): ", form_id)
