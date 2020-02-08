@@ -30,7 +30,7 @@ window_open_erum <- function(id, type) {
 
 
 
-  workshop_path <- "./erum2020_sessions_allcontribs_fullinfo_onlyWorkshops.xlsx"
+  workshop_path     <- "./erum2020_sessions_allcontribs_fullinfo_onlyWorkshops.xlsx"
   contribution_path <- "./erum2020_sessions_allcontribs_fullinfo_noWorkshops.xlsx"
   
   workshop_table <- readxl::read_excel(workshop_path)
@@ -128,6 +128,7 @@ window_open_erum <- function(id, type) {
     
     
     abstract_table <- reactive({
+      message("input$submissionType: ", input$submissionType)
       if (input$submissionType == "workshop") {
         abstract_t <- workshop_table
       } else if (input$submissionType == "contribution") {
@@ -138,12 +139,12 @@ window_open_erum <- function(id, type) {
     })
     
     current_dt <- reactive({
-      
+      message("input$reviewer: ", input$reviewer)
       mydt <- abstract_table()[abstract_table()$Reviewer1 %in% input$reviewer |
                                  abstract_table()$Reviewer2 %in% input$reviewer |
                                  abstract_table()$Reviewer3 %in% input$reviewer |
                                  "All" %in% input$reviewer,
-                               input$cols_abstract]
+                               union(input$cols_abstract,"Id")]
       return(mydt)
     })
     
@@ -151,7 +152,7 @@ window_open_erum <- function(id, type) {
       s <- input$DT_abstracts_rows_selected
       if(length(s) == 0)
         return(h3("Select an abstract from the table to display the full info"))
-      # browser()
+      
       search_id <- current_dt()[s, ]$Id
       this_submission <- abstract_table()[abstract_table()$Id == search_id, ]
       this_title <- this_submission$Title
@@ -178,7 +179,6 @@ window_open_erum <- function(id, type) {
       
       message("type: ", input$submissionType)
       message("form_id(): ", form_id)
- #     message("open link string: ", open_link_string)
       
       return(
         tagList(
