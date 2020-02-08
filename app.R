@@ -34,7 +34,8 @@ window_open_erum <- function(id, type) {
   contribution_path <- "./erum2020_sessions_allcontribs_fullinfo_noWorkshops.xlsx"
   
   workshop_table <- readxl::read_excel(workshop_path)
-  contribution_table <- readxl::read_excel(contribution_path)
+  contribution_table_raw <- readxl::read_excel(contribution_path)
+  contribution_table <- contribution_table_raw[!is.na(contribution_table_raw$Id),]
   
   
   reviewers_names <- unique(c(workshop_table$Reviewer1, workshop_table$Reviewer2,
@@ -42,13 +43,14 @@ window_open_erum <- function(id, type) {
   
   preselected_cols <- c("Id",
                         "Title",
-                        "Description",
+                        # "Description",
                         "Session format",
                         "Track",
                         "Keywords (1-3)",
                         "Link",
-                        "First time presenting this?",
-                        "Speaker Notes")
+                        "First time presenting this?"
+                        # "Speaker Notes"
+                        )
   
   abstract_table_compact <- 
     workshop_table[, preselected_cols]
@@ -140,7 +142,8 @@ window_open_erum <- function(id, type) {
       mydt <- abstract_table()[abstract_table()$Reviewer1 %in% input$reviewer |
                                  abstract_table()$Reviewer2 %in% input$reviewer |
                                  abstract_table()$Reviewer3 %in% input$reviewer |
-                                 "All" %in% input$reviewer,
+                                 "All" %in% input$reviewer |
+                                 !is.na(abstract_table()$Id),
                                input$cols_abstract]
       return(mydt)
     })
@@ -149,8 +152,9 @@ window_open_erum <- function(id, type) {
       s <- input$DT_abstracts_rows_selected
       if(length(s) == 0)
         return(h3("Select an abstract from the table to display the full info"))
-      
-      this_submission <- current_dt()[s, ]
+      # browser()
+      search_id <- current_dt()[s, ]$Id
+      this_submission <- abstract_table()[abstract_table()$Id == search_id, ]
       this_title <- this_submission$Title
       this_id <- this_submission$Id
       this_abstract <- this_submission$Description
@@ -207,7 +211,8 @@ window_open_erum <- function(id, type) {
         )
       )
       
-    })
+    
+      })
     
     output$DT_abstracts <- DT::renderDataTable({
       DT::datatable(
