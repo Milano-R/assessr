@@ -30,8 +30,8 @@ window_open_erum <- function(id, type) {
 
 
 
-  workshop_path     <- "./erum2020_sessions_allcontribs_fullinfo_onlyWorkshops.xlsx"
-  contribution_path <- "./erum2020_sessions_allcontribs_fullinfo_noWorkshops.xlsx"
+  workshop_path     <- "./erum2020_sessions_allcontribs_anonymous_onlyWorkshops.xlsx"
+  contribution_path <- "./erum2020_sessions_allcontribs_anonymous_noWorkshops.xlsx"
   
   workshop_table <- readxl::read_excel(workshop_path)
   contribution_table_raw <- readxl::read_excel(contribution_path)
@@ -99,7 +99,8 @@ window_open_erum <- function(id, type) {
           icon = icon("question-circle"),
           label = "How does assessr work?",
           class = "btn-info"
-        )
+        ),
+        HTML("<!-- version 1.0.0 -->")
       )
     ),
     
