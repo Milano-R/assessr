@@ -100,7 +100,7 @@ window_open_erum <- function(id, type) {
           label = "How does assessr work?",
           class = "btn-info"
         ),
-        HTML("<!-- version 1.0.0 -->")
+        HTML("<!-- version 1.1.0 -->")
       )
     ),
     
